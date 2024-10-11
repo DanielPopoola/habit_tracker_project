@@ -5,13 +5,8 @@ from .models import Habit
 @login_required
 def dashboard(request):
     user_habits = Habit.objects.filter(user=request.user)
-    habits_with_streaks = []
-    for habit in user_habits:
-        habit_streak = habit.get_streak()
-        habits_with_streaks.append({'habit':habit, 'streak':habit_streak})
     context = {
-        'habits':user_habits,
-        'habits_with_streaks': habits_with_streaks
+        'habits':user_habits
     }
     return render(request, 'habits/dashboard.html', context)
 
