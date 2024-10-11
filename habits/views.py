@@ -29,4 +29,4 @@ def create_habit(request):
 
         return redirect('habits/dashboard.html')
     
-    return render(request, 'create_habit')
+    return render(request, 'habits/create_habit.html')
