@@ -37,6 +37,8 @@
 </head>
 <body>
     <div class="create-habit-container">
+        <!-- Alerts -->
+        {% include 'partials/_alerts.html' %}
         <h2>Create a New Habit</h2>
         
         <form method="POST" action="{% url 'create_habit' %}">
