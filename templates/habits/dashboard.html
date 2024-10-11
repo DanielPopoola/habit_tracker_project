@@ -116,6 +116,12 @@
                             <input type="hidden" name="habit_id" value="{{ item.habit.id }}">
                             <button type="submit" class="task-btn">Mark as Completed</button>
                         </form>
+                        
+                        <!-- Delete Habit Form -->
+                        <form action="{% url 'delete_habit' item.habit.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="task-btn" onclick="return confirm('Are you sure you want to delete this habit?');">Delete Habit</button>
+                        </form>
                     </div>
                 </div>
                 {% endfor %}

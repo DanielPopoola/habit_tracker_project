@@ -46,3 +46,13 @@ def create_habit(request):
         )
         return redirect('dashboard')
     return render(request, 'habits/create_habit.html')
+
+@login_required
+def delete_habit(request, habit_id):
+    try:
+        habit = Habit.objects.get(id=habit_id, user=request.user)
+        habit.delete()
+        messages.success(request, f'Habit "{habit.name}" has been deleted.')
+    except Habit.DoesNotExist:
+        messages.error(request, 'Habit not found.')
+    return redirect('dashboard')
