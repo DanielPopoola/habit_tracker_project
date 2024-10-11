@@ -63,7 +63,7 @@
     <div class="dashboard-container">
         <!-- Dashboard Header -->
         <div class="dashboard-header">
-            <h2>Welcome to Your Habit Tracker</h2>
+            <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">Logout</button>
@@ -74,15 +74,31 @@
         <div class="habit-list">
             <h4>Your Current Habits</h4>
             
-            {% if habits %}
+            {% if habits_with_streaks %}
                 <!-- Loop through each habit and display it -->
-                {% for habit in habits %}
+                {% for item in habits_with_streaks %}
                 <div class="card habit-card">
                     <div class="card-body">
-                        <h5 class="card-title">Habit: {{ habit.name }}</h5>
-                        <p class="card-text">Period: {{ habit.periodicity }}</p>
-                        <p class="card-text">Streak: <span class="streak">{{ habit.streak }} Days</span></p>
-                        <button class="task-btn">Mark as Completed</button>
+                        <h5 class="card-title">Habit: {{ item.habit.name }}</h5>
+                        <p class="card-text">Period: {{ item.habit.periodicity }}</p>
+                        <p class="card-text">
+                            Streak: <span class="streak">{{ item.streak }} 
+                                {% if item.habit.periodicity == "daily" %}
+                                    Days
+                                {% elif item.habit.periodicity == "weekly" %}
+                                    Weeks
+                                {% elif item.habit.periodicity == "monthly" %}
+                                    Months
+                                {% endif %}
+                            </span>
+                        </p>
+                        
+                        <!-- Mark as Completed Form -->
+                        <form method="POST" action="{% url 'dashboard' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="habit_id" value="{{ item.habit.id }}">
+                            <button type="submit" class="task-btn">Mark as Completed</button>
+                        </form>
                     </div>
                 </div>
                 {% endfor %}
