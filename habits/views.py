@@ -7,7 +7,7 @@ from .forms import MarkCompletedForm
 @login_required
 def dashboard(request):
     habits = Habit.objects.filter(user=request.user)
-    
+
     # Handle form submission for marking habit as completed
     if request.method == 'POST':
         form = MarkCompletedForm(request.POST)
@@ -28,6 +28,7 @@ def dashboard(request):
         'habits_with_streaks': habits_with_streaks,
         'form': MarkCompletedForm(),  # Include the form in the context
     }
+
     return render(request, 'habits/dashboard.html', context)
 
 
@@ -44,6 +45,6 @@ def create_habit(request):
             periodicity=periodicity,
             created_at=start_date
         )
-        return redirect('dashboard.html')
+        return redirect('habits/dashboard.html')
     
     return render(request, 'habits/create_habit.html')
