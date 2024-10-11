@@ -73,7 +73,9 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Dashboard Header -->
+          <!-- Alerts -->
+        {% include 'partials/_alerts.html' %}
+            <!-- Dashboard Header -->
         <div class="dashboard-header">
             <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
             <form action="{% url 'logout' %}" method="post">
