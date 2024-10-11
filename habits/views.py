@@ -21,7 +21,6 @@ def dashboard(request):
             except Habit.DoesNotExist:
                 messages.error(request, 'Habit not found.')
         return redirect('dashboard')
-
     # Calculate streaks for each habit
     habits_with_streaks = [{'habit': habit, 'streak': habit.get_streak()} for habit in habits]
     
@@ -29,7 +28,6 @@ def dashboard(request):
         'habits_with_streaks': habits_with_streaks,
         'form': MarkCompletedForm(),  # Include the form in the context
     }
-
     return render(request, 'habits/dashboard.html', context)
 
 
@@ -47,5 +45,4 @@ def create_habit(request):
             created_at=start_date
         )
         return redirect('dashboard')
-    
     return render(request, 'habits/create_habit.html')
