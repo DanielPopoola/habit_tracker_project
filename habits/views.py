@@ -56,3 +56,31 @@ def delete_habit(request, habit_id):
     except Habit.DoesNotExist:
         messages.error(request, 'Habit not found.')
     return redirect('dashboard')
+
+
+@login_required
+def habit_analysis(request):
+    # Get all currently tracked habits for the user
+    all_habits = Habit.objects.filter(user=request.user)
+    
+    # Get habits grouped by periodicity
+    habits_by_periodicity = {}
+    for habit in all_habits:
+        if habit.periodicity not in habits_by_periodicity:
+            habits_by_periodicity[habit.periodicity] = []
+        habits_by_periodicity[habit.periodicity].append(habit)
+
+    # Calculate longest run streak for all defined habits
+    longest_streak = max([habit.get_streak() for habit in all_habits], default=0)
+
+    # Calculate longest run streak for each habit
+    longest_streaks_per_habit = {habit.name: habit.get_streak() for habit in all_habits}
+
+    context = {
+        'all_habits': all_habits,
+        'habits_by_periodicity': habits_by_periodicity,
+        'longest_streak': longest_streak,
+        'longest_streaks_per_habit': longest_streaks_per_habit,
+    }
+    
+    return render(request, 'habits/habit_analysis.html', context)
