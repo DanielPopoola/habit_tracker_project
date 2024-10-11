@@ -17,6 +17,10 @@ class Habit(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def streak(self):
+        return self.get_streak()
 
     def complete_habit(self, completion_date=None):
         """Mark the habit as completed for a specific date."""
