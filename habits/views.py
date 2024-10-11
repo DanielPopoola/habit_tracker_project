@@ -6,21 +6,30 @@ from .forms import MarkCompletedForm
 
 @login_required
 def dashboard(request):
-    user_habits = Habit.objects.filter(user=request.user)
-    context = {
-        'habits':user_habits
-    }
+    habits = Habit.objects.filter(user=request.user)
+    
+    # Handle form submission for marking habit as completed
     if request.method == 'POST':
         form = MarkCompletedForm(request.POST)
         if form.is_valid():
             habit_id = form.cleaned_data['habit_id']
             try:
                 habit = Habit.objects.get(id=habit_id, user=request.user)
-                habit.complete_habit()
+                habit.complete_habit()  # Mark the habit as completed
                 messages.success(request, f'Habit "{habit.name}" marked as completed.')
             except Habit.DoesNotExist:
-                messages.error(request, "Habit not found.")
+                messages.error(request, 'Habit not found.')
+        return redirect('dashboard')
+
+    # Calculate streaks for each habit
+    habits_with_streaks = [{'habit': habit, 'streak': habit.get_streak()} for habit in habits]
+    
+    context = {
+        'habits_with_streaks': habits_with_streaks,
+        'form': MarkCompletedForm(),  # Include the form in the context
+    }
     return render(request, 'habits/dashboard.html', context)
+
 
 @login_required
 def create_habit(request):
