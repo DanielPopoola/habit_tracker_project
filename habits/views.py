@@ -14,19 +14,15 @@ def dashboard(request):
 def create_habit(request):
     if request.method == 'POST':
         name = request.POST['name']
-        description = request.POST.get('description', '')
         periodicity = request.POST['periodicity']
         start_date = request.POST['start_date']
 
         habit = Habit.objects.create(
             user = request.user,
             name=name,
-            description=description,
             periodicity=periodicity,
-            last_completed=None,
-            streak=0
+            created_at=start_date
         )
-
-        return redirect('habits/dashboard.html')
+        return redirect('dashboard.html')
     
     return render(request, 'habits/create_habit.html')
