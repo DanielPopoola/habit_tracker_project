@@ -17,7 +17,7 @@ Technical requirements:
 3. PostgreSQL.
 
 Installation:
-1. Clone the repository
+1. Clone the repository https://github.com/DanielPopoola/habit_tracker_project.git 
 2. Install dependencies
 3. Run migrations
 4. Start the server.
