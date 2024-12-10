@@ -1,5 +1,5 @@
 Django>=5.1
-psycopg2>=2.9.9
+psycopg2-binary>=2.9.9
 djangorestframework>=5.1
 django-cors-headers>=5.1 
 gunicorn>=21.0
