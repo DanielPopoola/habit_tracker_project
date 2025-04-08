@@ -5,3 +5,4 @@ local_settings.py
 venv
 media
 db.sqlite3
+.env
